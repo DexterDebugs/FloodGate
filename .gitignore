@@ -1,0 +1,18 @@
+# Binaries
+floodgate
+*.exe
+
+# Go
+*.test
+*.out
+vendor/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Env
+.env
+.env.local
