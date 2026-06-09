@@ -3,7 +3,7 @@
 # Yours does one thing: receive a request, return mock JSON.
 #request theeskoni JSON format return chesthadhi. backend idhi
 
-from fastapi import FastAPI
+from fastapi import FastAPI  # type: ignore[import]
 
 app = FastAPI()
 
