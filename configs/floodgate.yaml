@@ -1,5 +1,5 @@
 routes:
   - path: /users/
-    target: http://localhost:8001
+    target: http://users-service:8001
   - path: /orders/
-    target: http://localhost:8002
+    target: http://orders-service:8002

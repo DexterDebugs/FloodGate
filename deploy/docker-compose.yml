@@ -1,0 +1,18 @@
+services:
+  gateway:
+    build: 
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - users-service
+      - orders-service
+
+  users-service:
+    build:
+      context: ../backends/users-service
+
+  orders-service:
+    build:
+      context: ../backends/orders-service
