@@ -1,3 +1,7 @@
+api_keys:
+  - "dev-key-shanksss-001"
+  - "dev-key-shanksss-002"
+
 routes:
   - path: /users/
     target: http://users-service:8001

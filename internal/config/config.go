@@ -13,6 +13,7 @@ type Route struct {
 
 type Config struct {		//list of routes
 	Routes []Route `yaml:"routes"`	//a slice (list) of routes above
+	APIKeys []string	`yaml:"api_keys"`
 }
 
 func Load(path string)	(*Config, error){
