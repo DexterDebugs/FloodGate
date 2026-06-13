@@ -8,6 +8,7 @@ services:
     depends_on:
       - users-service
       - orders-service
+      - redis
 
   users-service:
     build:
@@ -16,3 +17,8 @@ services:
   orders-service:
     build:
       context: ../backends/orders-service
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
