@@ -18,6 +18,57 @@ Most rate limiters are static — you set a number and forget it. Floodgate is b
 | Orchestration | Docker Compose | One-command spin-up of the whole stack |
 | Build | Multi-stage Docker + distroless | 22MB final gateway image |
 
+```mermaid
+flowchart TD
+    Client([Client<br/>curl -H X-API-Key])
+    
+    Client --> Logging
+    
+    Logging[Logging middleware<br/>observer - sees every request]
+    Logging --> Auth
+    
+    Auth{Auth gate<br/>X-API-Key valid?}
+    Auth -->|no| R401[401 Unauthorized]
+    Auth -->|yes| RateLimit
+    
+    RateLimit{Rate Limit gate<br/>Limiter.Allow}
+    RateLimit -->|deny| R429[429 Too Many Requests]
+    RateLimit -->|allow| Proxy
+    
+    RateLimit -.->|atomic INCR + EXPIRE| Redis[(Redis<br/>counters)]
+    
+    Proxy[Reverse Proxy<br/>route by path]
+    Proxy --> Users[users-service<br/>FastAPI :8001]
+    Proxy --> Orders[orders-service<br/>FastAPI :8002]
+    
+    subgraph Limiter [Limiter interface — pluggable algorithm]
+        FW[FixedWindow]
+        SW[SlidingWindow]
+        AA[AlwaysAllow]
+    end
+    
+    RateLimit -.uses.-> Limiter
+    
+    Config[/configs/floodgate.yaml<br/>routes · api_keys · rate_limit/]
+    Config -.loaded at startup.-> Auth
+    Config -.-> RateLimit
+    Config -.-> Proxy
+    
+    classDef observer fill:#9D7BBA,stroke:#5B3D7A,color:#fff
+    classDef gate fill:#E89B7E,stroke:#A85B3D,color:#fff
+    classDef handler fill:#5BA89F,stroke:#2D6B65,color:#fff
+    classDef storage fill:#D45D5D,stroke:#7E2A2A,color:#fff
+    classDef reject fill:#999,stroke:#555,color:#fff
+    classDef config fill:#777,stroke:#444,color:#fff
+    
+    class Logging observer
+    class Auth,RateLimit gate
+    class Proxy,Users,Orders handler
+    class Redis storage
+    class R401,R429 reject
+    class Config config
+```
+
 ## Quick start
 
 ```bash
