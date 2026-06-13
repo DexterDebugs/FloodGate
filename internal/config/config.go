@@ -11,9 +11,16 @@ type Route struct {
 	Target string	`yaml:"target"`
 }
 
+type RateLimit struct {
+	Algorithm string	`yaml:"algorithm"`
+	Limit int	`yaml:"limit"`
+	WindowSeconds int	`yaml:"window_seconds"`
+}
+
 type Config struct {		//list of routes
 	Routes []Route `yaml:"routes"`	//a slice (list) of routes above
 	APIKeys []string	`yaml:"api_keys"`
+	RateLimit RateLimit		`yaml:"rate_limit"`
 }
 
 func Load(path string)	(*Config, error){
