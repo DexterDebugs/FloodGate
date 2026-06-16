@@ -18,6 +18,7 @@ Most rate limiters are static — you set a number and forget it. Floodgate is b
 | Orchestration | Docker Compose | One-command spin-up of the whole stack |
 | Build | Multi-stage Docker + distroless | 22MB final gateway image |
 
+## Architecture
 ```mermaid
 flowchart TD
     Client([Client<br/>curl -H X-API-Key])
