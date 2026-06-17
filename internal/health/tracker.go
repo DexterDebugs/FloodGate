@@ -1,3 +1,5 @@
+//tracking latency samples per backend and computing p95 on demand. this is what it does. This is just a Design interface
+
 package health
 
 import "time"
@@ -14,5 +16,5 @@ type Snapshot struct {
 type Tracker interface {
 	Record(backend string, latency time.Duration, isError bool)	//returns nothing. This is intentional — recording is fire-and-forget;
 	//  if it fails, we don't want the request to fail.
-	Snapshot(backend string) Snapshot
+	Snapshot(backend string) Snapshot	//returns a snapshot method with P95 Latency computed
 }
