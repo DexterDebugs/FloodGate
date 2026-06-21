@@ -3,12 +3,15 @@
 # Yours does one thing: receive a request, return mock JSON.
 #request theeskoni JSON format return chesthadhi. backend idhi
 
-from fastapi import FastAPI  # type: ignore[import]
+from fastapi import FastAPI, Query  # type: ignore[import]
+import time
 
 app = FastAPI()
 
 @app.get("/orders/{order_id}")
-def get_order(order_id: int):
+def get_order(order_id: int, slow: int = Query(0)):
+    if (slow > 0):
+        time.sleep(slow/1000);
     return {
         "id": order_id,
         "name": f"Order {order_id}",
