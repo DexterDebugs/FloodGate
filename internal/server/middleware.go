@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-type responseWriter struct{
+type ResponseWriter struct{
 	http.ResponseWriter			//Go generates a hidden field accessible as rw.ResponseWriter
-	status int
+	Status int
 }
 
 
 //Overriding method
-func (rw *responseWriter) WriteHeader(code int){		//wraps http.responsewriter and remembers the status code when its written
-	rw.status = code		//captures the status code into your field
+func (rw *ResponseWriter) WriteHeader(code int){		//wraps http.responsewriter and remembers the status code when its written
+	rw.Status = code		//captures the status code into your field
 	rw.ResponseWriter.WriteHeader(code)		//Without this line,
 	//  the status code would never actually get written to the HTTP response — your wrapper would intercept it and silently drop it
 }
@@ -24,8 +24,8 @@ func (rw *responseWriter) WriteHeader(code int){		//wraps http.responsewriter an
 func Logging(next http.Handler)	http.Handler {	//takes a handler, returns a handler	
 	return http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {		//it is a type that converts such a function into something that satisfies http.Handler. It's an adapter.
 		start := time.Now()
-		rw := &responseWriter{ResponseWriter: w, status: 200}	//creates a wrapper
+		rw := &ResponseWriter{ResponseWriter: w, Status: 200}	//creates a wrapper
 		next.ServeHTTP(rw, r)	//pass wrapper through the next chain
-		log.Printf("%s %s %d %v", r.Method, r.URL.Path, rw.status, time.Since(start))
+		log.Printf("%s %s %d %v", r.Method, r.URL.Path, rw.Status, time.Since(start))
 	}) 
 }
