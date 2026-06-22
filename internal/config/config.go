@@ -9,7 +9,7 @@ import (
 type Route struct {
 	Path string		`yaml:"path"`	//Field Names
 	Target string	`yaml:"target"`
-	Name string		`yaml: "name"`
+	Name string		`yaml:"name"`
 }
 
 type RateLimit struct {
