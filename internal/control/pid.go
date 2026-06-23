@@ -17,5 +17,13 @@ func NewPIDController(kp, ki, kd float64)	*PIDController {
 }
 
 func (pid *PIDController)	Compute (currentError float64) float64 {
-	return currentError * pid.Kp
+	proportional := pid.Kp * currentError			//Meaning: Gives high error when the error exceeds wayy past the limit. 
+	pid.integral += currentError	//sums up all past errors 
+	integralTerm := pid.Ki * pid.integral
+	derivative := currentError - pid.prevError
+	derivativeTerm := pid.Kd * derivative
+	pid.prevError = currentError
+	output := proportional + integralTerm + derivativeTerm
+
+	return output
 }
