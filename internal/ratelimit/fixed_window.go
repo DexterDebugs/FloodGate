@@ -38,7 +38,7 @@ func (fw *FixedWindow)	Allow(clientID, route string)	bool {
 	*/
 
 	if err != nil {
-		return false	// fail open: don't take the gateway down if Redis flickers
+		return true	// fail open: don't take the gateway down if Redis flickers
 	}
 	if count == 1 {
 		fw.client.Expire(ctx, key, fw.window)
