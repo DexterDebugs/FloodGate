@@ -45,3 +45,7 @@ func (fw *FixedWindow)	Allow(clientID, route string)	bool {
 	}
 	return count <= int64(fw.limit)
 }
+
+func (fw *FixedWindow) SetLimit(limit int){
+	fw.limit = limit
+}

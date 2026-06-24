@@ -51,3 +51,7 @@ func (sw *SlidingWindow) Allow(clientID, route string)	bool {
 
 	return estimate <= float64(sw.limit)
 }
+
+func (sw *SlidingWindow) SetLimit(limit int){
+	sw.limit = limit
+}

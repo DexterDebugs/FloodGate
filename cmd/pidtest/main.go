@@ -1,3 +1,5 @@
+//Used for debugging purposes
+
 package main
 
 import (

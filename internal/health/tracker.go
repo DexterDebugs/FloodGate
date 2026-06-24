@@ -13,7 +13,7 @@ type Snapshot struct {
 }
 
 //that snapshot converted into JSON format for readability
-type SnapshotJSON struct {
+type SnapshotJSON struct {	
 	P95LatencyMS int `json:"p95_latency_ms"`
 	ErrorRate float64 `json:"error_rate"`
 	SampleCount int `json:"sample_count"`
