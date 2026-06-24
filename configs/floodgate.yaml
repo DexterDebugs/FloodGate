@@ -1,7 +1,12 @@
 rate_limit:
-  algorithm: sliding_window
+  algorithm: adaptive
   limit: 10
   window_seconds: 60
+  pid:
+    kp: 0.1
+    ki: 0.01
+    kd: 0.05
+  target_p95_ms: 100.0
 
 api_keys:
   - "dev-key-shanksss-001"

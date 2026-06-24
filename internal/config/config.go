@@ -12,10 +12,18 @@ type Route struct {
 	Name string		`yaml:"name"`
 }
 
+type PIDConfig struct {
+	Kp float64	`yaml:"kp"`
+	Ki float64	`yaml:"ki"`
+	Kd float64	`yaml:"kd"`
+}
+
 type RateLimit struct {
 	Algorithm string	`yaml:"algorithm"`
 	Limit int	`yaml:"limit"`
 	WindowSeconds int	`yaml:"window_seconds"`
+	PID PIDConfig `yaml:"pid"`
+	TargetP95MS float64 `yaml:"target_p95_ms"`
 }
 
 type Config struct {		//list of routes

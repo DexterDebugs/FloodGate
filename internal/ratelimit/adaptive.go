@@ -47,3 +47,7 @@ func (a *Adaptive) Allow(clientID, route string) bool {
 
 	return a.baseLimiter.Allow(clientID, route)		
 }
+
+func (a *Adaptive) SetLimit(limit int) {
+    a.baseLimit = limit
+}
