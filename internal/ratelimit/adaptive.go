@@ -1,6 +1,7 @@
 package ratelimit
 
 import (
+	"log"
 	"github.com/DexterDebugs/FloodGate/internal/control"
 	"github.com/DexterDebugs/FloodGate/internal/health"
 )
@@ -43,7 +44,8 @@ func (a *Adaptive) Allow(clientID, route string) bool {
 	if newLimit < 1 { newLimit = 1 }
 	if newLimit > 2 * a.baseLimit { newLimit =  2* a.baseLimit}			//acts like ceiling function 
 	a.baseLimiter.SetLimit(newLimit)		//tell the wrapped limiter(fw or sw) its new ceiling
-
+	log.Printf("[adaptive] backend = %s p95 = %.0fms err = %.1f output = %.1f limit = %d->%d",
+	a.backendName, currentP95Ms, currentError, output, a.baseLimit, newLimit)
 
 	return a.baseLimiter.Allow(clientID, route)		
 }
@@ -51,3 +53,4 @@ func (a *Adaptive) Allow(clientID, route string) bool {
 func (a *Adaptive) SetLimit(limit int) {
     a.baseLimit = limit
 }
+
